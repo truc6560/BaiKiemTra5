@@ -4,9 +4,8 @@
         <title>{{$title}}</title>
         <link rel="stylesheet" href="{{asset('library/bootstrap.min.css')}}">
 
-        <script src="{{asset('library/jquery.slim.min.js')}}"></script>
         <script src="{{asset('library/popper.min.js')}}"></script>
-        <script src="{{asset('library/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('library/bootstrap.bundle.min.js' )}}"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="{{asset('library/jquery-3.7.1.js')}}" ></script>
         <style>
@@ -136,17 +135,40 @@
                     </div>
                     <ul class="list-group list-group-flush list-group-movie">
                        @foreach($genre as $row)
-                       <a href="{{url('/theloai/'.$row->id)}}">{{$row->genre_name_vn}}</a>
+                       <a href="{{url('/theloai/'.$row->id)}}" class="menu-the-loai" the_loai="{{$row->id}}">{{$row->genre_name_vn}}</a>
                        @endforeach
                     </ul>
                     </div>
                 </div>
-                    <div class='col-9'>
+                    <div class='col-9' id="movie-view-div">
                          {{$slot}}
                     </div>
                 </div>
             </div>  
          </div>
         </main>
+
+        <script>
+            $(document).ready(function(){
+                $(document).on("click", ".menu-the-loai", function(e){
+                    if ($(".list-movie").length > 0) {
+                        e.preventDefault();
+                        let the_loai = $(this).attr("the_loai");
+
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('movieview')}}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "the_loai": the_loai
+                            },
+                            success: function(data){
+                                $("#movie-view-div").html(data);
+                            }
+                        });
+                    } 
+                });
+            });
+        </script>
     </body>
 </html>
