@@ -48,4 +48,5 @@ class MovieController extends Controller {
     }
     
     return view("movie.movie_view", compact("data"));
+    }
 }
