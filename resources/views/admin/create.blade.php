@@ -31,6 +31,18 @@
             </div>
 
             <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Thể loại</label>
+            <select name="genre_id" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">-- Chọn thể loại phim --</option>
+                @foreach($genre as $item)
+                    <option value="{{ $item->id }}" {{ old('genre_id') == $item->id ? 'selected' : '' }}>
+                        {{ $item->genre_name_vn }}
+                    </option>
+                @endforeach
+            </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
                 <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ngày phát hành</label>
                 <input type="text" name="release_date" value="{{ old('release_date') }}" placeholder="yyyy-mm-dd" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>

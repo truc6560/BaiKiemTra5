@@ -17,51 +17,56 @@ class MovieControllerCreate extends Controller
     // Hàm xử lý lưu dữ liệu và bắt lỗi
     public function store(Request $request)
     {
+        // 1. Dịch thông báo lỗi
         $messages = [
             'required'    => ':attribute không được để trống.',
             'image'       => ':attribute tải lên bắt buộc phải là định dạng hình ảnh.',
             'date_format' => ':attribute phải nhập đúng định dạng năm-tháng-ngày (yyyy-mm-dd).',
         ];
 
-        // 2. Đổi tên các biến thành tiếng Việt để hiển thị ra thông báo cho đẹp
+        // 2. Đổi tên cột
         $customAttributes = [
             'original_name' => 'Tên tiếng Anh',
             'movie_name_vn' => 'Tên tiếng Việt',
+            'genre_id'      => 'Thể loại', // THÊM MỚI
             'release_date'  => 'Ngày phát hành',
             'overview'      => 'Mô tả',
             'image'         => 'Ảnh đại diện',
         ];
 
-        // 3. Chạy lệnh kiểm tra (Validation)
+        // 3. Chạy Validate (Thêm ràng buộc cho genre_id)
         $request->validate([
             'original_name' => 'required',
             'movie_name_vn' => 'required',
-            'release_date'  => 'required|date_format:Y-m-d', // Ràng buộc đúng chuẩn yyyy-mm-dd
+            'genre_id'      => 'required', // THÊM MỚI
+            'release_date'  => 'required|date_format:Y-m-d',
             'overview'      => 'required',
-            'image'         => 'required|image', // Bắt buộc phải là file ảnh
+            'image'         => 'required|image',
         ], $messages, $customAttributes);
 
-        // --- Nếu code chạy qua được đoạn trên nghĩa là dữ liệu đã hợp lệ ---
-        
-        // 4. Xử lý lưu ảnh vào thư mục storage/app/public/
-        $data = $request->except('_token');
+        // 4. Xử lý lưu ảnh
+        $data = $request->except('_token', 'genre_id'); // Loại bỏ genre_id khỏi data của bảng movie
         if ($request->hasFile('image')) {
-            // Lấy chính xác tên gốc của file ảnh bạn tải lên (ví dụ: poster.jpg)
             $fileName = $request->file('image')->getClientOriginalName();
-            
-            // Dùng hàm storeAs để ép Laravel lưu đúng tên gốc đó, chuỗi sẽ rất ngắn
             $imagePath = $request->file('image')->storeAs('images', $fileName, 'public');
             $data['image'] = $imagePath;
         }
 
-        // 5. Cứu cánh lỗi thiếu cột: Gán movie_name bằng với original_name
+        // 5. Chuẩn bị dữ liệu và tạo ID mới
         $data['movie_name'] = $request->original_name;
+        $maxId = DB::table('movie')->max('id');
+        $newMovieId = $maxId + 1;
+        $data['id'] = $newMovieId;
 
-        $maxId = DB::table('movie')->max('id'); // Tìm ID lớn nhất hiện tại
-        $data['id'] = $maxId + 1;               // Cộng thêm 1 để làm ID cho phim mới
-
-        // 6. Lưu vào Database
+        // 6. LƯU VÀO BẢNG MOVIE
         DB::table('movie')->insert($data);
 
-return redirect()->back()->with('success', 'Đã thêm phim thành công!');    }
+        // 7. LƯU VÀO BẢNG MOVIE_GENRE (THÊM MỚI)
+        DB::table('movie_genre')->insert([
+            'id_movie' => $newMovieId,
+            'id_genre' => $request->genre_id
+        ]);
+
+        return redirect()->back()->with('success', 'Đã thêm phim thành công!');
+    }
 }
