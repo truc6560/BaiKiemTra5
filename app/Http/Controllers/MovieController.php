@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller {
-
-    // --- PHẦN CHO NGƯỜI DÙNG XEM ---
-
+  
     public function index() {
         $data = DB::select("select * from movie where popularity > 450 and vote_average > 7 order by release_date desc limit 0,12");
         $theloai = DB::select("select * from genre");
         return view("movie.index", compact("data", "theloai"));
     }
+  
     public function theloai($id) {
     $data = DB::select(
         "SELECT movie.* FROM movie 
