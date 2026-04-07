@@ -35,13 +35,6 @@
                 display:grid;
                 grid-template-columns:repeat(2,30% 70%);
             }
-            /* Chỉnh ảnh phim vừa khung */
-            .movie img {
-                width: 100%;
-                height: 350px;
-                object-fit: cover;
-                display: block;
-            }
             .banner
             {
                 position:relative;
@@ -124,10 +117,11 @@
                     <h3>Millions of movies, TV shows and people to discover. Explore now.</h3>
                 </div>
                 <div class='search-input'>
-                    <form method="post" action="{{ route('timkiem') }}">
-                    <input type="text" name='keyword' placeholder="Nhập tên bộ phim yêu thích để tìm kiếm"> 
-                     <button type="submit" class="search-btn">Tìm kiếm</button>
-                     {{ csrf_field() }}
+                    <form method="post" action="{{url('/timkiem')}}">
+                        <input type="text" name='keyword' placeholder="Nhập tên bộ phim yêu thích để tìm kiếm"
+                            value="{{ request()->input('keyword') }}">
+                        <button class="search-btn">Tìm kiếm</button>
+                        {{csrf_field()}}
                     </form>
                 </div>
             </div>
