@@ -4,9 +4,8 @@
         <title>{{$title}}</title>
         <link rel="stylesheet" href="{{asset('library/bootstrap.min.css')}}">
 
-        <script src="{{asset('library/jquery.slim.min.js')}}"></script>
         <script src="{{asset('library/popper.min.js')}}"></script>
-        <script src="{{asset('library/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('library/bootstrap.bundle.min.js' )}}"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="{{asset('library/jquery-3.7.1.js')}}" ></script>
         <style>
@@ -38,20 +37,36 @@
             }
             .banner
             {
+                position:relative;
                 width:100%;
                 max-width:1200px;
-                max-height:200px;
-                height:65vh;
-                background-image:url('{{asset('images/banner.jpg')}}');
-                background-size:cover;
+                height:220px;
                 color:white;
                 margin:0 auto;
+                overflow:hidden;
+            }
+            .banner img
+            {
+                position:absolute;
+                inset:0;
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                z-index:0;
+            }
+            .banner-content
+            {
+                position:relative;
+                z-index:1;
+                padding:20px 20px;
+                text-align:center;
             }
             .search-input
             {
                 width: 90%;
                 position: relative;
                 margin: 0 auto;
+                z-index:1;
             }
             .search-input input
             {
@@ -85,18 +100,26 @@
                 background:#000;
 
             }
+
+            /*.movie:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }*/
+
         </style>
     </head>
     <body>
         <header style='text-align:center'>
             <div class='banner'>
-                <div style="padding:20px 20px">
+                <img src="{{asset('image/banner.jpg')}}" alt="Banner">
+                <div class="banner-content">
                     <h2>Welcome.</h2>
-                    <h3>Millions of movies, TV shows and people to discover. Explore now.
+                    <h3>Millions of movies, TV shows and people to discover. Explore now.</h3>
                 </div>
                 <div class='search-input'>
                     <form method="post" action="{{url('/timkiem')}}">
-                        <input type="text" name='keyword' placeholder="Nhập tên bộ phim yêu thích để tìm kiếm">
+                        <input type="text" name='keyword' placeholder="Nhập tên bộ phim yêu thích để tìm kiếm"
+                            value="{{ request()->input('keyword') }}">
                         <button class="search-btn">Tìm kiếm</button>
                         {{csrf_field()}}
                     </form>
@@ -112,18 +135,41 @@
                     </div>
                     <ul class="list-group list-group-flush list-group-movie">
                        @foreach($genre as $row)
-                       <a href="{{url('/theloai/'.$row->id)}}">{{$row->genre_name_vn}}</a>
+                       <a href="{{url('/theloai/'.$row->id)}}" class="menu-the-loai" the_loai="{{$row->id}}">{{$row->genre_name_vn}}</a>
                        @endforeach
                     </ul>
                     </div>
                 </div>
-                    <div class='col-9'>
+                    <div class='col-9' id="movie-view-div">
                          {{$slot}}
                     </div>
                 </div>
             </div>  
          </div>
         </main>
+
+        <script>
+            $(document).ready(function(){
+                $(document).on("click", ".menu-the-loai", function(e){
+                    if ($(".list-movie").length > 0) {
+                        e.preventDefault();
+                        let the_loai = $(this).attr("the_loai");
+
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('movieview')}}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "the_loai": the_loai
+                            },
+                            success: function(data){
+                                $("#movie-view-div").html(data);
+                            }
+                        });
+                    } 
+                });
+            });
+        </script>
     </body>
 </html>
 
