@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     
     <div style='text-align:center; color:#15c; font-weight:bold; font-size:20px;'>DANH SÁCH PHIM</div>
-    <a href="#" class='btn btn-sm btn-success mb-1'>Thêm</a>
+    <a href="{{ route('admin.movies.create') }}" class='btn btn-sm btn-success mb-1'>Thêm</a>
     <table id = "id-table" class="table table-striped table-bordered" width="100%">
         <thead>
             <tr>
