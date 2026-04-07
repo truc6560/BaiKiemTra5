@@ -1,4 +1,4 @@
-<x-movie-layout :genre="$theloai">
+<x-movie-layout>
     <x-slot name='title'>Movie</x-slot>
     
     <div class='list-movie'>

@@ -44,8 +44,8 @@ class MovieController extends Controller {
         ", [$id_the_loai]);
     } else {
         $data = DB::select("SELECT * FROM movie WHERE popularity > 450 AND vote_average > 7 ORDER BY release_date DESC LIMIT 0,12");
+
     }
     
     return view("movie.movie_view", compact("data"));
-}
 }

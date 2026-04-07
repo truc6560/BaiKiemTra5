@@ -7,3 +7,4 @@ Route::post('/movieview', 'App\Http\Controllers\MovieController@movieview')->nam
 Route::get('movie/chitiet/{id}', 'App\Http\Controllers\MovieController@chitiet');
 Route::post('/timkiem', 'App\Http\Controllers\MovieController@timkiem')->name('timkiem');
 Route::get('/theloai/{id}', 'App\Http\Controllers\MovieController@theloai');
+
