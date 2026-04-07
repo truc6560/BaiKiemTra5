@@ -35,7 +35,7 @@
             <select name="genre_id" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                 <option value="">-- Chọn thể loại phim --</option>
                 @foreach($genre as $item)
-                    <option value="{{ $item->id }}" {{ old('genre_id') == $item->id ? 'selected' : '' }}>
+                    <option value="{{ $item->id }}" {{ old('id_genre') == $item->id ? 'selected' : '' }}>
                         {{ $item->genre_name_vn }}
                     </option>
                 @endforeach

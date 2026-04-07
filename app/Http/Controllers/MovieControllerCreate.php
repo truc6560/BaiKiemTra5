@@ -10,8 +10,11 @@ class MovieControllerCreate extends Controller
 // Hàm hiển thị form thêm mới
     public function create()
     {
-        $genre = DB::table('genre')->get();
-        return view('admin.create');
+        // 1. Truy vấn lấy danh sách thể loại từ Database
+        $genre = DB::table('genre')->get(); 
+
+        // 2. Gửi kèm biến $genre sang cho file view
+        return view('admin.create', compact('genre')); 
     }
 
     // Hàm xử lý lưu dữ liệu và bắt lỗi
