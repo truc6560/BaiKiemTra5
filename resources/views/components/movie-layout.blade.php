@@ -36,22 +36,45 @@
                 display:grid;
                 grid-template-columns:repeat(2,30% 70%);
             }
+            /* Chỉnh ảnh phim vừa khung */
+            .movie img {
+                width: 100%;
+                height: 350px;
+                object-fit: cover;
+                display: block;
+            }
             .banner
             {
+                position:relative;
                 width:100%;
                 max-width:1200px;
-                max-height:200px;
-                height:65vh;
-                background-image:url('{{asset('images/banner.jpg')}}');
-                background-size:cover;
+                height:220px;
                 color:white;
                 margin:0 auto;
+                overflow:hidden;
+            }
+            .banner img
+            {
+                position:absolute;
+                inset:0;
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                z-index:0;
+            }
+            .banner-content
+            {
+                position:relative;
+                z-index:1;
+                padding:20px 20px;
+                text-align:center;
             }
             .search-input
             {
                 width: 90%;
                 position: relative;
                 margin: 0 auto;
+                z-index:1;
             }
             .search-input input
             {
@@ -85,14 +108,21 @@
                 background:#000;
 
             }
+
+            /*.movie:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }*/
+
         </style>
     </head>
     <body>
         <header style='text-align:center'>
             <div class='banner'>
-                <div style="padding:20px 20px">
+                <img src="{{asset('image/banner.jpg')}}" alt="Banner">
+                <div class="banner-content">
                     <h2>Welcome.</h2>
-                    <h3>Millions of movies, TV shows and people to discover. Explore now.
+                    <h3>Millions of movies, TV shows and people to discover. Explore now.</h3>
                 </div>
                 <div class='search-input'>
                     <form method="post" action="{{url('/timkiem')}}">
