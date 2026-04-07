@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\AdminMovieController;
 use App\Http\Controllers\TimKiemController;
-use App\Http\Controllers\MovieControllerNe;
+use App\Http\Controllers\MovieControllerNgoc;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'App\Http\Controllers\MovieController@index');
 Route::get('/theloai/{id}', 'App\Http\Controllers\MovieController@theloai');
 Route::post('/movieview', 'App\Http\Controllers\MovieController@movieview')->name('movieview');
-Route::get('/chitiet/{id}', [MovieControllerNe::class, 'chitiet']);
+Route::get('/chitiet/{id}', [MovieControllerNgoc::class, 'chitiet']);
 Route::match(['get', 'post'], '/timkiem', [App\Http\Controllers\TimKiemController::class, 'TimKiem']);
 
 // Hiển thị Form thêm phim mới
