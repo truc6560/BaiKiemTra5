@@ -1,10 +1,26 @@
 <?php
 
+use App\Http\Controllers\AdminMovieController;
+use App\Http\Controllers\TimKiemController;
+use App\Http\Controllers\MovieControllerNgoc;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovieControllerhihi;
 
+Route::get('/', 'App\Http\Controllers\MovieController@index');
+Route::get('/theloai/{id}', 'App\Http\Controllers\MovieController@theloai');
+Route::post('/movieview', 'App\Http\Controllers\MovieController@movieview')->name('movieview');
+Route::get('/chitiet/{id}', [MovieControllerNgoc::class, 'chitiet']);
+Route::match(['get', 'post'], '/timkiem', [App\Http\Controllers\TimKiemController::class, 'TimKiem']);
+
+// Hiển thị Form thêm phim mới
+Route::get('/admin/movies/create', 'App\Http\Controllers\MovieControllerCreate@create')->name('admin.movies.create');
+
+// Xử lý lưu phim mới vào Database
+Route::post('/admin/movies/store', 'App\Http\Controllers\MovieControllerCreate@store')->name('admin.movies.store');
 // Trang quản lý
 Route::get('/admin', [MovieControllerhihi::class, 'admin']);
 
 // Route xử lý xóa (Sửa thành GET và dùng đúng class MovieControllerhihi)
 Route::delete('/movies/{id}', [MovieControllerhihi::class, 'destroy']);
+
+
