@@ -2,7 +2,10 @@
     <x-slot name='title'>Movie</x-slot>
     
     <div class='list-movie'>
-        @foreach($data as $row)
+        @php
+            $movies = $data ?? $movies ?? [];
+        @endphp
+        @foreach($movies as $row)
             <div class='movie'> 
                 <a href="{{url('movie/chitiet/'.$row->id)}}" style="text-decoration: none; color: inherit; display: block;">
                     @php $img = $row->image_link ?: asset('storage/movie_image/'.$row->image); @endphp

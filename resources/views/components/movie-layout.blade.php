@@ -127,6 +127,9 @@
             </div>
         </header>
         <main style="max-width:1200px; margin:2px auto;">
+        @php
+            $genres = $genre ?? $theloai ?? [];
+        @endphp
         <div class='row'>
             <div class='col-3 pr-0'>
                 <div class="card" style="width: 18rem; background-color:#222;color:white;">
@@ -134,7 +137,7 @@
                     <i class="fa fa-film" aria-hidden="true"></i> <b>Thể loại phim</b>
                     </div>
                     <ul class="list-group list-group-flush list-group-movie">
-                       @foreach($genre as $row)
+                       @foreach($genres as $row)
                        <a href="{{url('/theloai/'.$row->id)}}" class="menu-the-loai" the_loai="{{$row->id}}">{{$row->genre_name_vn}}</a>
                        @endforeach
                     </ul>
