@@ -48,11 +48,4 @@ class MovieController extends Controller {
     
     return view("movie.movie_view", compact("data"));
 }
-
-    public function chitiet($id) {
-        $res = DB::select("select * from movie where id = ?", [$id]);
-        $data = $res[0]; 
-        $theloai = DB::select("select * from genre");
-        return view("movie.chitiet", compact("data", "theloai"));
-    }
 }
