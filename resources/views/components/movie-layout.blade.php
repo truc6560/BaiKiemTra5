@@ -41,7 +41,7 @@
                 max-width:1200px;
                 max-height:200px;
                 height:65vh;
-                background-image:url('{{asset('images/banner.jpg')}}');
+                background-image:url('{{asset('image/banner.jpg')}}');
                 background-size:cover;
                 color:white;
                 margin:0 auto;
@@ -111,13 +111,11 @@
                     </div>
                     <ul class="list-group list-group-flush list-group-movie">
                        @foreach($genre as $row)
-                       {{-- Bổ sung class menu-the-loai và thuộc tính the_loai để chạy AJAX --}}
                        <a href="{{url('/theloai/'.$row->id)}}" class="menu-the-loai" the_loai="{{$row->id}}">{{$row->genre_name_vn}}</a>
                        @endforeach
                     </ul>
                     </div>
                 </div>
-                    {{-- CHỈNH SỬA: Thêm ID movie-view-div để AJAX nhận diện vùng hiển thị --}}
                     <div class='col-9' id="movie-view-div">
                          {{$slot}}
                     </div>
